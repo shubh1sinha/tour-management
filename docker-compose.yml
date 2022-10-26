@@ -1,0 +1,41 @@
+version: '3'
+services:   
+  tour-eureka-server:
+    image: tour-eureak-server:1.0
+    container_name: tour-eureka-server
+    expose:
+    - "9190"
+    ports: 
+    - 9190:9190 
+  tour-admin-microsservice:
+    image: tour-admin-microservice:1.0
+    ports:
+    - "9191:9191"
+    environment:
+      - JAVA_OPTS=
+            -DEUREKA_SERVER=http://tour-eureka-server:9190/eureka
+      
+    links: 
+        - tour-eureka-server
+  tour-customer-microservice:
+    image: tour-customer-microservice:1.0
+    ports:
+    - "9192:9192"
+    environment:
+      - JAVA_OPTS=
+            -DEUREKA_SERVER=http://tour-eureka-server:9190/eureka #(name of eureka host==eureka container name)
+      
+    links: 
+        - tour-eureka-server
+        
+  tour-application:
+    image: tour-portal-microservice:1.0
+    ports:
+    - "9193:9193"
+    environment:
+      - JAVA_OPTS=
+            -DEUREKA_SERVER=http://tour-eureka-server:9190/eureka  #(name of eureka host==eureka container name)
+      
+    links: 
+        - tour-eureka-server
+        

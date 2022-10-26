@@ -1,0 +1,20 @@
+server:
+ port: 9192
+
+spring:
+ application:
+    name: tour-customer-microservice
+ jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+ h2:
+    console:
+      enabled: true
+      
+
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone:  ${EUREKA_SERVER:http://localhost:9190/eureka/} 

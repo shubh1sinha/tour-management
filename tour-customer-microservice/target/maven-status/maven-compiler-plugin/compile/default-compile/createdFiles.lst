@@ -1,0 +1,6 @@
+com\demo\spring\entity\Customer.class
+com\demo\spring\service\CustomerService.class
+com\demo\spring\TourCustomerMicroserviceApplication.class
+com\demo\spring\service\CustomerServiceDAO.class
+com\demo\spring\repo\CustomerRepository.class
+com\demo\spring\rest\CustomerRestController.class

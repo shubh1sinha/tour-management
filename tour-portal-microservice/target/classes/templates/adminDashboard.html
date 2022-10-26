@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin | Dashboard</title>
+</head>
+<style>
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+li {
+	float: left;
+	border-right: 1px solid #bbb;
+}
+
+li:last-child {
+	border-right: none;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:hover:not(.active) {
+	background-color: #111;
+}
+
+.active {
+	background-color: grey;
+}
+</style>
+<body>
+	<ul>
+		<li><a class="active" href="#home" style="font-size: 30px;">Home</a></li>
+		<li><a th:href="@{/admin/tour}"
+			style="font-size: 30px;"><span>Add Tour</span></a></li>
+			
+		<li><a th:href="@{/customer}"
+			style="font-size: 30px;"><span>Customer List</span></a></li>
+			
+		<li><a th:href="@{/tour/booked}"
+			style="font-size: 30px;"><span>Booked Tours</span></a></li>
+			
+		<!-- <li><a th:href="@{checkBalance(panNo=${panNo})}"
+			style="font-size: 30px;"><span>Balance</span></a></li>
+			
+		<li><a th:href="@{linkfd(panNo=${panNo})}"
+			style="font-size: 30px;"><span>FD</span></a></li>
+
+		<li><a th:href="@{linkrd(panNo=${panNo})}"
+			style="font-size: 30px;"><span>RD</span></a></li>
+
+		<li><a th:href="@{linkedAccount(panNo=${panNo})}"
+			style="font-size: 30px;"><span>Accounts</span></a></li> -->
+
+		<li style="float: right"><a href="#">Logged In: &nbsp;<span
+				th:text="${admin}" style="color: rgb(128, 255, 0); font-size: 30px;"></a></li>
+	</ul>
+
+</body>
+</html>

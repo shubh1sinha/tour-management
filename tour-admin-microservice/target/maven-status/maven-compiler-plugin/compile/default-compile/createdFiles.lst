@@ -1,0 +1,10 @@
+com\demo\spring\rest\AdminRestController.class
+com\demo\spring\service\AdminService.class
+com\demo\spring\repo\BookingRepository.class
+com\demo\spring\entity\Admin.class
+com\demo\spring\TourAdminMicroserviceApplication.class
+com\demo\spring\service\AdminServiceDAO.class
+com\demo\spring\entity\Booking.class
+com\demo\spring\repo\AdminRepository.class
+com\demo\spring\repo\TourRepository.class
+com\demo\spring\entity\Tour.class

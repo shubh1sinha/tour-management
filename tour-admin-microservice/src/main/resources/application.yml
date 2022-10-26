@@ -1,0 +1,20 @@
+server:
+ port: 9191
+
+spring:
+ application:
+    name: tour-admin-microservice
+ jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+ h2:
+    console:
+      enabled: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone:  ${EUREKA_SERVER:http://localhost:9190/eureka/}
+debug: true 

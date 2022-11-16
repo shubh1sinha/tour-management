@@ -3,7 +3,7 @@ server:
 
 spring:
  application:
-    name: tour-react-application
+    name: tour-react-app
 
 eureka:
   client:

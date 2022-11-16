@@ -58,7 +58,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<finalName>user-order-api-gateway</finalName>
+		<finalName>tour-react-app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

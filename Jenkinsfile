@@ -14,7 +14,7 @@ pipeline{
         }
         stage("dockerize"){
             steps{
-            sh "sudo docker-compose up"
+            sh "docker-compose up"
             }
         }
     }

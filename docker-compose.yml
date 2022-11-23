@@ -39,7 +39,7 @@ services:
     links: 
         - tour-eureka-server
   
-    tour-react-app:
+  tour-react-application:
     image: tour-react-app:1.0
     ports:
     - "9194:9194"

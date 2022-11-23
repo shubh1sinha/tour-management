@@ -23,5 +23,6 @@
 		<module>tour-customer-microservice</module>
 		<module>tour-portal-microservice</module>
 		<module>tour-eureak-server</module>
+		<module>tour-react-app</module>
 	</modules>
 </project>

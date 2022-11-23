@@ -3,19 +3,19 @@ pipeline{
     stages{
         stage("checkout"){
             steps{
-                git clone "https://github.com/shubh1sinha/tour-management.git"
+                bat "git clone https://github.com/shubh1sinha/tour-management.git"
             }
         }
         
          stage("package"){
             steps{
-            sh "mvn clean package"
+            bat "mvn clean package"
             }
         }
         
         stage("dockerize"){
             steps{
-            sh "docker-compose up"
+            bat "docker-compose up"
             }
         }
     }

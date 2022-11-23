@@ -38,7 +38,7 @@ services:
       
     links: 
         - tour-eureka-server
-        
+  
     tour-react-app:
     image: tour-react-app:1.0
     ports:

@@ -34,7 +34,7 @@ public class TourReactController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Tour>> getTourList(){
-		ResponseEntity<List<Tour>> tours = rt.exchange("http://localhost:9191/tour/list", HttpMethod.GET, null,
+		ResponseEntity<List<Tour>> tours = rt.exchange("http://TOUR-ADMIN-MICROSERVICE/tour/list", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Tour>>() {
 				});
 		return tours;
@@ -43,7 +43,7 @@ public class TourReactController {
 	
 	@GetMapping("/customer/list")
 	public ResponseEntity<List<Customer>> getCustomerList(){
-		ResponseEntity<List<Customer>> customers = rt.exchange("http://localhost:9192/customer/list", HttpMethod.GET,
+		ResponseEntity<List<Customer>> customers = rt.exchange("http://TOUR-CUSTOMER-MICROSERVICE/customer/list", HttpMethod.GET,
 				null, new ParameterizedTypeReference<List<Customer>>() {
 				});
 		return customers;
@@ -52,25 +52,25 @@ public class TourReactController {
 	
 	@PostMapping("/add")
 	public ResponseEntity<String> addTour(@RequestBody Tour tour){
-		ResponseEntity<String> response = rt.postForEntity("http://localhost:9191/tour/add", tour, String.class);
+		ResponseEntity<String> response = rt.postForEntity("http://TOUR-ADMIN-MICROSERVICE/tour/add", tour, String.class);
 		return response;
 	}
 	
 	@PostMapping("/customer/registration")
 	public ResponseEntity<String> registerCustomer(@RequestBody Customer customer){
-		ResponseEntity<String> response = rt.postForEntity("http://localhost:9192/customer/add", customer, String.class);
+		ResponseEntity<String> response = rt.postForEntity("http://TOUR-CUSTOMER-MICROSERVICE/customer/add", customer, String.class);
 		return response;
 	}
 	
 	@GetMapping("/customer/{username}")
 	public ResponseEntity<Customer> getCustomerByUsername(@PathVariable("username") String username){
-		ResponseEntity<Customer> customer = rt.getForEntity("http://localhost:9192/customer/get/"+username, Customer.class);
+		ResponseEntity<Customer> customer = rt.getForEntity("http://TOUR-CUSTOMER-MICROSERVICE/customer/get/"+username, Customer.class);
 		return customer;
 	}
 	
 	@GetMapping("/customer/get/{id}")
 	public ResponseEntity<Customer> getCustomerById(@PathVariable("id") int id){
-		ResponseEntity<Customer> customer = rt.getForEntity("http://localhost:9192/customer/"+id, Customer.class);
+		ResponseEntity<Customer> customer = rt.getForEntity("http://TOUR-CUSTOMER-MICROSERVICE/customer/"+id, Customer.class);
 		return customer;
 	}
 	
@@ -78,12 +78,12 @@ public class TourReactController {
 	@PostMapping(value = "/login")
 	public ResponseEntity<String> loginCheck(@RequestBody Admin admin) {
 		if(admin.getUsername().equals("admin")) {
-			ResponseEntity<String> resp1 = rt.postForEntity("http://localhost:9191/admin/login/", admin, String.class);
+			ResponseEntity<String> resp1 = rt.postForEntity("http://TOUR-ADMIN-MICROSERVICE/admin/login/", admin, String.class);
 			return resp1;
 		}
 		else {
 			ResponseEntity<String> resp2 = rt.getForEntity(
-					"http://localhost:9192/customer/" + admin.getUsername() + "/" + admin.getPassword(), String.class);
+					"http://TOUR-CUSTOMER-MICROSERVICE/customer/" + admin.getUsername() + "/" + admin.getPassword(), String.class);
 			return resp2;
 		}
 	}
@@ -91,7 +91,7 @@ public class TourReactController {
 	@PostMapping(value = "/booking")
 	public ResponseEntity<String> addBooking(@RequestBody Booking booking, @RequestParam("tourId") int tourId, @RequestParam("customerId") int customerId) {
 		booking.setCustomerId(customerId);
-		ResponseEntity<String> response = rt.postForEntity("http://localhost:9191/booking/add/" +tourId , booking,
+		ResponseEntity<String> response = rt.postForEntity("http://TOUR-ADMIN-MICROSERVICE/booking/add/" +tourId , booking,
 				String.class);
 		return response;
 		
@@ -100,7 +100,7 @@ public class TourReactController {
 	
 	@GetMapping(value = "/list/booking")
 	public ResponseEntity<List<Booking>> bookedTours(@RequestParam("customerId") int customerId) {
-		ResponseEntity<List<Booking>> response = rt.exchange("http://localhost:9191/booking/list/" + customerId,
+		ResponseEntity<List<Booking>> response = rt.exchange("http://TOUR-ADMIN-MICROSERVICE/booking/list/" + customerId,
 				HttpMethod.GET, null, new ParameterizedTypeReference<List<Booking>>() {
 				});
 		return response;
@@ -108,10 +108,38 @@ public class TourReactController {
 	
 	@GetMapping(value = "/bookings")
 	public ResponseEntity<List<Booking>> bookeingList() {
-		ResponseEntity<List<Booking>> response = rt.exchange("http://localhost:9191/booking/list", HttpMethod.GET, null,
+		ResponseEntity<List<Booking>> response = rt.exchange("http://TOUR-ADMIN-MICROSERVICE/booking/list", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Booking>>() {
 				});
 		return response;
+	}
+	
+	
+	/***
+	 * 
+	 * @param bookingId
+	 * @return
+	 * @description Once booking is placed 
+	 * 	it is send to payment page and then
+	 *  if payment is done response will be directly
+	 *  send to booking page and booking is added
+	 *  else it will be false with pending status
+	 *  
+	 */
+	@PostMapping(value= "/verification")
+	public ResponseEntity<String> paymentVerification(@RequestParam("bookingId") int bookingId){
+		ResponseEntity<String> response = rt.getForEntity("http://TOUR-ADMIN-MICROSERVICE/booking/update/" + bookingId,
+				String.class);
+		if(response.equals(true)) {
+			//sending it to customer bookings
+			return ResponseEntity.ok("Bookings Made Successfully");
+			
+		}
+		else {
+			//sending it to pendings
+			return ResponseEntity.status(404).body("Still Pending for payment");
+		}
+		
 	}
 	
 	

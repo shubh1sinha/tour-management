@@ -55,7 +55,7 @@ public class TourController {
 	@PostMapping(value = "/customer/registered")
 	public ModelAndView registerCustomer(@ModelAttribute("customer") Customer customer) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<String> response = rt.postForEntity("http://localhost:9192/customer/add", customer,
+		ResponseEntity<String> response = rt.postForEntity("http://TOUR-CUSTOMER-MICROSERVICE/customer/add", customer,
 				String.class);
 		mv.addObject(response);
 		if (response.getBody().contains("Successfully")) {
@@ -92,17 +92,17 @@ public class TourController {
 	public ModelAndView loginCheck(@ModelAttribute("admin") Admin admin) {
 
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<String> resp1 = rt.postForEntity("http://localhost:9191/admin/login/", admin, String.class);
+		ResponseEntity<String> resp1 = rt.postForEntity("http://TOUR-ADMIN-MICROSERVICE/admin/login/", admin, String.class);
 
 		if (resp1.getBody().equals("Admin")) {
 			mv.addObject("admin", admin.getUsername());
 			mv.setViewName("adminDashboard");
 		} else {
 			ResponseEntity<String> resp2 = rt.getForEntity(
-					"http://localhost:9192/customer/" + admin.getUsername() + "/" + admin.getPassword(), String.class);
+					"http://TOUR-CUSTOMER-MICROSERVICE/customer/" + admin.getUsername() + "/" + admin.getPassword(), String.class);
 			if (resp2.getBody().equals("Customer")) {
 				ResponseEntity<Customer> resp3 = rt
-						.getForEntity("http://localhost:9192/customer/get/" + admin.getUsername(), Customer.class);
+						.getForEntity("http://TOUR-CUSTOMER-MICROSERVICE/customer/get/" + admin.getUsername(), Customer.class);
 				mv.addObject("customerId", resp3.getBody().getCustomerId());
 				mv.addObject("username", admin.getUsername());
 				mv.setViewName("customerDashboard");
@@ -126,7 +126,7 @@ public class TourController {
 	@GetMapping(value = "/admin/tour")
 	public ModelAndView getTourList(ModelMap map) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<List<Tour>> response = rt.exchange("http://localhost:9191/tour/list", HttpMethod.GET, null,
+		ResponseEntity<List<Tour>> response = rt.exchange("http://TOUR-ADMIN-MICROSERVICE/tour/list", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Tour>>() {
 				});
 		mv.setViewName("tourList");
@@ -155,7 +155,7 @@ public class TourController {
 	public ModelAndView addSpeciality(@ModelAttribute("tour") Tour tour) {
 		ModelAndView mv = new ModelAndView();
 
-		ResponseEntity<String> response = rt.postForEntity("http://localhost:9191/tour/add", tour, String.class);
+		ResponseEntity<String> response = rt.postForEntity("http://TOUR-ADMIN-MICROSERVICE/tour/add", tour, String.class);
 
 		mv.addObject(response);
 		String message = "Specuality added Scuessfully! ";
@@ -173,7 +173,7 @@ public class TourController {
 	@GetMapping(value = "/customer")
 	public ModelAndView customerList(ModelMap map) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<List<Customer>> response = rt.exchange("http://localhost:9192/customer/list", HttpMethod.GET,
+		ResponseEntity<List<Customer>> response = rt.exchange("http://TOUR-CUSTOMER-MICROSERVICE/customer/list", HttpMethod.GET,
 				null, new ParameterizedTypeReference<List<Customer>>() {
 				});
 		mv.setViewName("customerList");
@@ -189,7 +189,7 @@ public class TourController {
 	@GetMapping(value = "/tour/booked")
 	public ModelAndView bookedTours(ModelMap map) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<List<Booking>> response = rt.exchange("http://localhost:9191/booking/list", HttpMethod.GET, null,
+		ResponseEntity<List<Booking>> response = rt.exchange("http://TOUR-ADMIN-MICROSERVICE/booking/list", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Booking>>() {
 				});
 		mv.setViewName("bookedList");
@@ -206,7 +206,7 @@ public class TourController {
 	@GetMapping(value = "/customer/booked")
 	public ModelAndView bookedTours(@RequestParam("customerId") int customerId, ModelMap map) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<List<Booking>> response = rt.exchange("http://localhost:9191/booking/list/" + customerId,
+		ResponseEntity<List<Booking>> response = rt.exchange("http://TOUR-ADMIN-MICROSERVICE/booking/list/" + customerId,
 				HttpMethod.GET, null, new ParameterizedTypeReference<List<Booking>>() {
 				});
 		mv.setViewName("customerBookedList");
@@ -223,7 +223,7 @@ public class TourController {
 	@GetMapping(value = "/customer/tour")
 	public ModelAndView customerTour(@RequestParam("customerId") int customerId, ModelMap map) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<List<Tour>> response = rt.exchange("http://localhost:9191/tour/list", HttpMethod.GET, null,
+		ResponseEntity<List<Tour>> response = rt.exchange("http://TOUR-ADMIN-MICROSERVICE/tour/list", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Tour>>() {
 				});
 		mv.addObject("customerId", customerId);
@@ -258,7 +258,7 @@ public class TourController {
 	@PostMapping(value = "/customer/tour/booked")
 	public ModelAndView addBooking(@ModelAttribute("booking") Booking booking, @RequestParam("tourId") int tourId) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<String> response = rt.postForEntity("http://localhost:9191/booking/add/" + tourId, booking,
+		ResponseEntity<String> response = rt.postForEntity("http://TOUR-ADMIN-MICROSERVICE/booking/add/" + tourId, booking,
 				String.class);
 
 		mv.addObject(response);
@@ -276,7 +276,7 @@ public class TourController {
 	@GetMapping(value = "/customer/booking/payment")
 	public ModelAndView makeTourPayment(@RequestParam("bookingId") int bookingId) {
 		ModelAndView mv = new ModelAndView();
-		ResponseEntity<String> response = rt.getForEntity("http://localhost:9191/booking/update/" + bookingId,
+		ResponseEntity<String> response = rt.getForEntity("http://TOUR-ADMIN-MICROSERVICE/booking/update/" + bookingId,
 				String.class);
 
 		mv.addObject(response);

@@ -23,7 +23,8 @@ public class TourPortalMicroserviceApplication {
 		SpringApplication.run(TourPortalMicroserviceApplication.class, args);
 
 	}
-
+	
+	@LoadBalanced
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();

@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage("checkout"){
             steps{
-                git "https://github.com/shubh1sinha/tour-management.git"
+                git clone "https://github.com/shubh1sinha/tour-management.git"
             }
         }
         

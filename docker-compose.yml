@@ -49,4 +49,11 @@ services:
       
     links: 
         - tour-eureka-server
+    
+  tour-portal:
+    image: tour-react:latest
+    container_name: tour-react-application
+    ports:
+    - "3000:3000"
+
         
